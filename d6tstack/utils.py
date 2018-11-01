@@ -111,7 +111,7 @@ def pd_to_psql(df, uri, tablename, if_exists='fail'):
     import sqlalchemy
     import io
 
-    sql_engine = sqlalchemy.create_engine(uri)
+    sql_engine = sqlalchemy.create_engine(uri, connect_args={'options': '-csearch_path={}'.format(schema)})
     sql_cnxn = sql_engine.raw_connection()
     cursor = sql_cnxn.cursor()
 
@@ -146,7 +146,7 @@ def pd_to_mysql(df, uri, tablename, if_exists='fail', tmpfile='mysql.csv'):
 
     import sqlalchemy
 
-    sql_engine = sqlalchemy.create_engine(uri)
+    sql_engine = sqlalchemy.create_engine(uri, connect_args={'options': '-csearch_path={}'.format(schema)})
 
     df[:0].to_sql(tablename, sql_engine, if_exists=if_exists, index=False)
 
